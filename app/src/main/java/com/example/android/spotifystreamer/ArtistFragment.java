@@ -1,6 +1,9 @@
 package com.example.android.spotifystreamer;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -89,8 +92,21 @@ public class ArtistFragment extends Fragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    FetchArtistTask artistTask = new FetchArtistTask();
-                    artistTask.execute(v.getText().toString());
+
+                    // Check for internet connectivity before fetching artist data
+                    ConnectivityManager cm =
+                            (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+                    NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                    boolean isConnected = activeNetwork != null &&
+                            activeNetwork.isConnectedOrConnecting();
+
+                    if (isConnected) {
+                        FetchArtistTask artistTask = new FetchArtistTask();
+                        artistTask.execute(v.getText().toString());
+                    } else {
+                        Toast.makeText(getActivity(), "No internet connectivity", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 return false;
             }
