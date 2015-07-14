@@ -1,6 +1,7 @@
 package com.example.android.spotifystreamer;
 
 import android.app.Activity;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,10 +55,16 @@ public class ArtistAdapter extends ArrayAdapter<nArtist> {
         }
 
         ImageView iconView = (ImageView) convertView.findViewById(R.id.list_item_artist_icon);
-        Picasso.with(getContext()).load(artist.artistImage).placeholder(R.drawable.placeholder).into(iconView);
+        // Check for valid image URL
+        if (artist.artistImage != null && Patterns.WEB_URL.matcher(artist.artistImage).matches()) {
+            Picasso.with(getContext()).load(artist.artistImage).into(iconView);
+        } else {
+            Picasso.with(getContext()).load(R.drawable.placeholder).into(iconView);
+        }
 
         TextView artistNameView = (TextView) convertView.findViewById(R.id.list_item_artist);
         artistNameView.setText(artist.artistName);
+
         return convertView;
     }
 }
