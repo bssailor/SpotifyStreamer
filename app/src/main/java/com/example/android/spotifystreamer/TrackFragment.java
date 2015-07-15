@@ -33,9 +33,6 @@ public class TrackFragment extends Fragment {
     // Initialize data for adapter while waiting on data to return from AsyncTask
     private nTrack[] nTracks = new nTrack[]{};
 
-    public TrackFragment() {
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

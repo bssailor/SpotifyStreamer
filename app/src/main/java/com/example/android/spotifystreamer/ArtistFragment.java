@@ -39,9 +39,6 @@ public class ArtistFragment extends Fragment {
     // Initialize data for adapter while waiting on data to return from AsyncTask
     private nArtist[] nArtists = new nArtist[]{};
 
-    public ArtistFragment() {
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
