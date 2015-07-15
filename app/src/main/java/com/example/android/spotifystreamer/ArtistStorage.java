@@ -6,30 +6,30 @@ import android.os.Parcelable;
 /**
  * Class to store searched for artists
  */
-public class nArtist implements Parcelable {
-    public final Creator<nArtist> CREATOR = new Creator<nArtist>() {
+public class ArtistStorage implements Parcelable {
+    public final Creator<ArtistStorage> CREATOR = new Creator<ArtistStorage>() {
 
         @Override
-        public nArtist createFromParcel(Parcel source) {
-            return new nArtist(source);
+        public ArtistStorage createFromParcel(Parcel source) {
+            return new ArtistStorage(source);
         }
 
         @Override
-        public nArtist[] newArray(int size) {
-            return new nArtist[size];
+        public ArtistStorage[] newArray(int size) {
+            return new ArtistStorage[size];
         }
     };
     String artistImage;
     String artistName;
     String artistId;
 
-    public nArtist(String aImage, String aName, String aId) {
+    public ArtistStorage(String aImage, String aName, String aId) {
         this.artistImage = aImage;
         this.artistName = aName;
         this.artistId = aId;
     }
 
-    private nArtist(Parcel in) {
+    private ArtistStorage(Parcel in) {
         artistImage = in.readString();
         artistName = in.readString();
         artistId = in.readString();

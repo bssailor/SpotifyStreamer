@@ -34,16 +34,16 @@ public class ArtistFragment extends Fragment {
 
     private ArtistAdapter artistAdapter;
 
-    private ArrayList<nArtist> artistList;
+    private ArrayList<ArtistStorage> artistList;
 
     // Initialize data for adapter while waiting on data to return from AsyncTask
-    private nArtist[] nArtists = new nArtist[]{};
+    private ArtistStorage[] ArtistStorages = new ArtistStorage[]{};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null || !savedInstanceState.containsKey("artists")) {
-            artistList = new ArrayList<nArtist>(Arrays.asList(nArtists));
+            artistList = new ArrayList<ArtistStorage>(Arrays.asList(ArtistStorages));
         } else {
             artistList = savedInstanceState.getParcelableArrayList("artists");
         }
@@ -73,7 +73,7 @@ public class ArtistFragment extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                nArtist artist = artistAdapter.getItem(position);
+                ArtistStorage artist = artistAdapter.getItem(position);
                 Intent intent = new Intent(getActivity(), DetailActivity.class)
                         .putExtra(Intent.EXTRA_TEXT, artist.artistId)
                         .putExtra("Artist", artist.artistName);
@@ -148,7 +148,7 @@ public class ArtistFragment extends Fragment {
                     } else {
                         image = artist.images.get(0).url;
                     }
-                    artistAdapter.add(new nArtist(image, artist.name, artist.id));
+                    artistAdapter.add(new ArtistStorage(image, artist.name, artist.id));
                 }
             }
         }

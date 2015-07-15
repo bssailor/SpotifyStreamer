@@ -28,10 +28,10 @@ public class TrackFragment extends Fragment {
 
     private TrackAdapter trackAdapter;
 
-    private ArrayList<nTrack> trackList;
+    private ArrayList<TrackStorage> trackList;
 
     // Initialize data for adapter while waiting on data to return from AsyncTask
-    private nTrack[] nTracks = new nTrack[]{};
+    private TrackStorage[] TrackStorages = new TrackStorage[]{};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class TrackFragment extends Fragment {
             FetchTrackTask trackTask = new FetchTrackTask();
             trackTask.execute(id);
 
-            trackList = new ArrayList<nTrack>(Arrays.asList(nTracks));
+            trackList = new ArrayList<TrackStorage>(Arrays.asList(TrackStorages));
         } else {
             trackList = savedInstanceState.getParcelableArrayList("tracks");
         }
@@ -108,7 +108,7 @@ public class TrackFragment extends Fragment {
                     } else {
                         image = track.album.images.get(0).url;
                     }
-                    trackAdapter.add(new nTrack(image, track.name, track.album.name));
+                    trackAdapter.add(new TrackStorage(image, track.name, track.album.name));
                 }
             }
         }

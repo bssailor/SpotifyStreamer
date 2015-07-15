@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class ArtistAdapter extends ArrayAdapter<nArtist> {
+public class ArtistAdapter extends ArrayAdapter<ArtistStorage> {
     private static final String LOG_TAG = ArtistAdapter.class.getSimpleName();
 
     /**
@@ -24,7 +24,7 @@ public class ArtistAdapter extends ArrayAdapter<nArtist> {
      * @param context The current context. Used to inflate the layout file.
      * @param artists A List of Artist objects to display in a list
      */
-    public ArtistAdapter(Activity context, List<nArtist> artists) {
+    public ArtistAdapter(Activity context, List<ArtistStorage> artists) {
         // Here, we initialize the ArrayAdapter's internal storage for the context and the list.
         // the second argument is used when the ArrayAdapter is populating a single TextView.
         // Because this is a custom adapter for two TextViews and an ImageView, the adapter is not
@@ -44,7 +44,7 @@ public class ArtistAdapter extends ArrayAdapter<nArtist> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Gets the Artist object from the ArrayAdapter at the appropriate position
-        nArtist artist = getItem(position);
+        ArtistStorage artist = getItem(position);
 
         // Adapters recycle views to AdapterViews.
         // If this is a new View object we're getting, then inflate the layout.

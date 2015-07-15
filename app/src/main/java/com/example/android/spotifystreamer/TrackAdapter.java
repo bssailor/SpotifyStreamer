@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class TrackAdapter extends ArrayAdapter<nTrack> {
+public class TrackAdapter extends ArrayAdapter<TrackStorage> {
     private static final String LOG_TAG = TrackAdapter.class.getSimpleName();
 
     /**
@@ -24,7 +24,7 @@ public class TrackAdapter extends ArrayAdapter<nTrack> {
      * @param context The current context. Used to inflate the layout file.
      * @param tracks  A List of Track objects to display in a list
      */
-    public TrackAdapter(Activity context, List<nTrack> tracks) {
+    public TrackAdapter(Activity context, List<TrackStorage> tracks) {
         // Here, we initialize the ArrayAdapter's internal storage for the context and the list.
         // the second argument is used when the ArrayAdapter is populating a single TextView.
         // Because this is a custom adapter for two TextViews and an ImageView, the adapter is not
@@ -44,7 +44,7 @@ public class TrackAdapter extends ArrayAdapter<nTrack> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Gets the Artist object from the ArrayAdapter at the appropriate position
-        nTrack track = getItem(position);
+        TrackStorage track = getItem(position);
 
         // Adapters recycle views to AdapterViews.
         // If this is a new View object we're getting, then inflate the layout.

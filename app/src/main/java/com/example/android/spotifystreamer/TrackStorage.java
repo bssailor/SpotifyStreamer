@@ -6,30 +6,30 @@ import android.os.Parcelable;
 /**
  * Class to store top ten tracks for selected artist
  */
-public class nTrack implements Parcelable {
-    public final Parcelable.Creator<nTrack> CREATOR = new Parcelable.Creator<nTrack>() {
+public class TrackStorage implements Parcelable {
+    public final Parcelable.Creator<TrackStorage> CREATOR = new Parcelable.Creator<TrackStorage>() {
 
         @Override
-        public nTrack createFromParcel(Parcel source) {
-            return new nTrack(source);
+        public TrackStorage createFromParcel(Parcel source) {
+            return new TrackStorage(source);
         }
 
         @Override
-        public nTrack[] newArray(int size) {
-            return new nTrack[size];
+        public TrackStorage[] newArray(int size) {
+            return new TrackStorage[size];
         }
     };
     String albumImage;
     String trackName;
     String albumName;
 
-    public nTrack(String aImage, String tName, String aName) {
+    public TrackStorage(String aImage, String tName, String aName) {
         this.albumImage = aImage;
         this.trackName = tName;
         this.albumName = aName;
     }
 
-    private nTrack(Parcel in) {
+    private TrackStorage(Parcel in) {
         albumImage = in.readString();
         trackName = in.readString();
         albumName = in.readString();
