@@ -1,6 +1,9 @@
 package com.example.android.spotifystreamer;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -40,8 +43,21 @@ public class TrackFragment extends Fragment {
 
             // Task to retrieve top ten tracks for selected artist
             String id = getActivity().getIntent().getStringExtra(Intent.EXTRA_TEXT);
-            FetchTrackTask trackTask = new FetchTrackTask();
-            trackTask.execute(id);
+
+            // Check for internet connectivity before fetching track data
+            ConnectivityManager cm =
+                    (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            boolean isConnected = activeNetwork != null &&
+                    activeNetwork.isConnectedOrConnecting();
+
+            if (isConnected) {
+                FetchTrackTask trackTask = new FetchTrackTask();
+                trackTask.execute(id);
+            } else {
+                Toast.makeText(getActivity(), "No internet connectivity", Toast.LENGTH_SHORT).show();
+            }
 
             trackList = new ArrayList<TrackStorage>(Arrays.asList(TrackStorages));
         } else {
@@ -82,13 +98,16 @@ public class TrackFragment extends Fragment {
                 return null;
             }
 
-            // Query spotify for top ten tracks for selected artist
-            SpotifyApi spotifyApi = new SpotifyApi();
-            SpotifyService spotifyService = spotifyApi.getService();
-            Map<String, Object> options = new HashMap<>();
-            options.put("country", "US");
-            Tracks tracks = spotifyService.getArtistTopTrack(params[0], options);
-            return tracks;
+            try {
+                // Query spotify for top ten tracks for selected artist
+                SpotifyApi spotifyApi = new SpotifyApi();
+                SpotifyService spotifyService = spotifyApi.getService();
+                Map<String, Object> options = new HashMap<>();
+                options.put("country", "US");
+                return spotifyService.getArtistTopTrack(params[0], options);
+            } catch (Exception e) {
+                return null;
+            }
         }
 
         @Override

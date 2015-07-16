@@ -124,11 +124,14 @@ public class ArtistFragment extends Fragment {
                 return null;
             }
 
-            // Query spotify for artists matching search string
-            SpotifyApi api = new SpotifyApi();
-            SpotifyService spotify = api.getService();
-            ArtistsPager results = spotify.searchArtists(params[0]);
-            return results;
+            try {
+                // Query spotify for artists matching search string
+                SpotifyApi api = new SpotifyApi();
+                SpotifyService spotify = api.getService();
+                return spotify.searchArtists(params[0]);
+            } catch (Exception e) {
+                return null;
+            }
         }
 
         @Override
