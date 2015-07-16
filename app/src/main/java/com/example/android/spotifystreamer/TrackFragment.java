@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.Tracks;
+import retrofit.RetrofitError;
 
 
 /**
@@ -98,14 +100,15 @@ public class TrackFragment extends Fragment {
                 return null;
             }
 
+            // Query spotify for top ten tracks for selected artist
+            SpotifyApi spotifyApi = new SpotifyApi();
+            SpotifyService spotifyService = spotifyApi.getService();
+            Map<String, Object> options = new HashMap<>();
+            options.put("country", "US");
             try {
-                // Query spotify for top ten tracks for selected artist
-                SpotifyApi spotifyApi = new SpotifyApi();
-                SpotifyService spotifyService = spotifyApi.getService();
-                Map<String, Object> options = new HashMap<>();
-                options.put("country", "US");
                 return spotifyService.getArtistTopTrack(params[0], options);
-            } catch (Exception e) {
+            } catch (RetrofitError retrofitError) {
+                Log.e("Retrofit Error", retrofitError.toString());
                 return null;
             }
         }
@@ -116,7 +119,7 @@ public class TrackFragment extends Fragment {
             // Otherwise, populate adapter
             if (tracks == null || tracks.tracks.isEmpty()) {
                 trackAdapter.clear();
-                Toast.makeText(getActivity(), "Track not found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Track not found", Toast.LENGTH_SHORT).show();
             } else {
                 trackAdapter.clear();
                 for (Track track : tracks.tracks) {

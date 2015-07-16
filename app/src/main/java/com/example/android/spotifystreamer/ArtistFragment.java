@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Artist;
 import kaaes.spotify.webapi.android.models.ArtistsPager;
+import retrofit.RetrofitError;
 
 
 /**
@@ -124,12 +126,13 @@ public class ArtistFragment extends Fragment {
                 return null;
             }
 
+            // Query spotify for artists matching search string
+            SpotifyApi api = new SpotifyApi();
+            SpotifyService spotify = api.getService();
             try {
-                // Query spotify for artists matching search string
-                SpotifyApi api = new SpotifyApi();
-                SpotifyService spotify = api.getService();
                 return spotify.searchArtists(params[0]);
-            } catch (Exception e) {
+            } catch (RetrofitError retrofitError) {
+                Log.e("Retrofit Error", retrofitError.toString());
                 return null;
             }
         }
@@ -140,7 +143,7 @@ public class ArtistFragment extends Fragment {
             // Otherwise, populate adapter
             if (artistsPager == null || artistsPager.artists.items.isEmpty()) {
                 artistAdapter.clear();
-                Toast.makeText(getActivity(), "Artist not found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Artist not found", Toast.LENGTH_SHORT).show();
             } else {
                 artistAdapter.clear();
                 for (Artist artist : artistsPager.artists.items) {
