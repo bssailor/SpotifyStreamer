@@ -32,6 +32,12 @@ public class TrackAdapter extends ArrayAdapter<TrackStorage> {
         super(context, 0, tracks);
     }
 
+    static class TrackViewHolder {
+        ImageView albumImage;
+        TextView trackName;
+        TextView albumName;
+    }
+
     /**
      * Provides a view for an AdapterView (ListView, GridView, etc.)
      *
@@ -46,27 +52,34 @@ public class TrackAdapter extends ArrayAdapter<TrackStorage> {
         // Gets the Artist object from the ArrayAdapter at the appropriate position
         TrackStorage track = getItem(position);
 
+        TrackViewHolder holder;
+
         // Adapters recycle views to AdapterViews.
         // If this is a new View object we're getting, then inflate the layout.
         // If not, this view already has the layout inflated from a previous call to getView,
         // and we modify the View widgets as usual.
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_track, parent, false);
+            holder = new TrackViewHolder();
+            holder.albumImage = (ImageView) convertView.findViewById(R.id.list_item_album_icon);
+            holder.trackName = (TextView) convertView.findViewById(R.id.list_item_track);
+            holder.albumName = (TextView) convertView.findViewById(R.id.list_item_album);
+            convertView.setTag(holder);
+        }
+        else {
+            holder = (TrackViewHolder) convertView.getTag();
         }
 
-        ImageView iconView = (ImageView) convertView.findViewById(R.id.list_item_album_icon);
         // Check for valid image URL
         if (track.albumImage != null && Patterns.WEB_URL.matcher(track.albumImage).matches()) {
-            Picasso.with(getContext()).load(track.albumImage).into(iconView);
+            Picasso.with(getContext()).load(track.albumImage).into(holder.albumImage);
         } else {
-            Picasso.with(getContext()).load(R.drawable.placeholder).into(iconView);
+            Picasso.with(getContext()).load(R.drawable.placeholder).into(holder.albumImage);
         }
 
-        TextView trackNameView = (TextView) convertView.findViewById(R.id.list_item_track);
-        trackNameView.setText(track.trackName);
+        holder.trackName.setText(track.trackName);
 
-        TextView albumNameView = (TextView) convertView.findViewById(R.id.list_item_album);
-        albumNameView.setText(track.albumName);
+        holder.albumName.setText(track.albumName);
 
         return convertView;
     }
